@@ -1,5 +1,5 @@
 "Metamod Plugin"
 {
 	"alias"	"cs2tickrate"
-	"file"	"addons/cs2tickrate/bin"
+	"file"	"addons/cs2tickrate/bin/cs2tickrate"
 }

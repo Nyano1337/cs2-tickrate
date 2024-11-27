@@ -19,8 +19,7 @@ class GameSessionConfiguration_t {};
 	SURF_ASSERT(MEM::VmtHookEx(GAMEDATA::GetOffset(gdOffsetKey), pModule.get(), gdOffsetKey, fnHook, fnTrampoline));
 
 namespace MEM {
-	namespace CALL {
-	} // namespace CALL
+	namespace CALL {} // namespace CALL
 
 	namespace MODULE {
 		inline std::shared_ptr<libmodule::CModule> engine;
@@ -32,8 +31,7 @@ namespace MEM {
 		void Setup();
 	} // namespace MODULE
 
-	namespace TRAMPOLINE {
-	} // namespace TRAMPOLINE
+	namespace TRAMPOLINE {} // namespace TRAMPOLINE
 
 	void SetupHooks();
 

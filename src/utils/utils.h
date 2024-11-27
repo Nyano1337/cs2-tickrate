@@ -19,6 +19,6 @@ namespace UTIL {
 	std::string GetPublicIP();
 	json LoadJsonc(std::string sFilePath);
 	std::wstring ToWideString(const char* pszCharStr);
-	
+
 	CGlobalVars* GetGlobals();
 } // namespace UTIL

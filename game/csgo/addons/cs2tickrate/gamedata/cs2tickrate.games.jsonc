@@ -1,11 +1,21 @@
 {
     "Offset": {
-
+		// Check sv_fullupdate
+		"ClientOffset": {
+			"windows": 624,
+			"linux": 640
+		}
     },
     "Signature": {
+		// %5.2f %5.2f %5.2f %7i %5i %7.2f %7i
+		"CServerRemoteAccess::GetStatsString": {
+			"library": "engine2",
+			"windows": "4C 8B DC 49 89 5B ? 45 89 4B",
+			"linux": "55 48 89 E5 41 57 41 56 49 89 F6 41 55 48 8D 75 ? 41 89 CD"
+		},
         "CNetworkGameClient::ComputeNextRenderTime": {
 			"library": "engine2",
-			"windows": "40 53 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B D9 0F 29 74 24 ? 66 0F 6E B1",
+			"windows": "40 53 48 83 EC 30 80 B9 ? ? ? ? ? 48 8B D9 0F 29 74 24 ? 66 0F 6E B1",
 			"linux": "80 BF ? ? ? ? ? 66 0F EF C0 F3 0F 2A 87"
 		},
 		// %g: FilterTime took target %g as time base instead of actual %g, diff %g\n
@@ -31,6 +41,21 @@
 		}
     },
     "Address": {
+		"GetHostFrame": {
+			"signature": "CServerRemoteAccess::GetStatsString",
+			"windows": {
+				"offset_func": 129,
+				"offset_opcode": 3,
+				"opcode_length": 7,
+				"dereference": false
+			},
+			"linux": {
+				"offset_func": 70,
+				"offset_opcode": 1,
+				"opcode_length": 5,
+				"dereference": false
+			}
+		},
         "&tick_interval": {
 			"signature": "CNetworkGameClient::ComputeNextRenderTime",
 			"windows": {

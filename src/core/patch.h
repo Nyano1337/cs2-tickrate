@@ -1,4 +1,3 @@
 #pragma once
 
-namespace PATCH {
-}
+namespace PATCH {}

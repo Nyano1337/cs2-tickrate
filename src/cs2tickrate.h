@@ -32,8 +32,8 @@ public:
 public:
 	void OnFillServerInfo(CNetworkGameServerBase* pNetServer, CSVCMsg_ServerInfo_t* pServerInfo);
 	void OnConnectClient(CNetworkGameServerBase* pNetServer, CServerSideClientBase* pClient, const char* pszName, ns_address* pAddr, int socket,
-					CCLCMsg_SplitPlayerConnect_t* pSplitPlayer, const char* pszChallenge, const byte* pAuthTicket, int nAuthTicketLength,
-					bool bIsLowViolence);
+						 CCLCMsg_SplitPlayerConnect_t* pSplitPlayer, const char* pszChallenge, const byte* pAuthTicket, int nAuthTicketLength,
+						 bool bIsLowViolence);
 
 public:
 	static void OnTickrateChanged(BaseConVar* ref, const CSplitScreenSlot nSlot, const int* pNewValue, const int* pOldValue);
