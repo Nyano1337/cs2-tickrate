@@ -11,6 +11,7 @@ namespace GAMEDATA {
 	int GetOffset(std::string name);
 	void* GetMemSig(std::string name);
 	void* GetAddress(std::string name);
+	void* GetPatchAddress(std::string name);
 
 	inline json m_Json;
 	inline std::string m_sFilePath;

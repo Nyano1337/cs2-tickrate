@@ -82,12 +82,12 @@ void* GAMEDATA::GetAddress(std::string name) {
 		return nullptr;
 	}
 
-	if (m_Json.find("Addresses") == m_Json.end()) {
+	if (m_Json.find("Address") == m_Json.end()) {
 		TICKRATE_ASSERT(false);
 		return nullptr;
 	}
 
-	auto& address = m_Json["Addresses"];
+	auto& address = m_Json["Address"];
 	if (address.is_null() || address.empty()) {
 		TICKRATE_ASSERT(false);
 		return nullptr;
@@ -123,6 +123,52 @@ void* GAMEDATA::GetAddress(std::string name) {
 	if (dereference) {
 		addr.DerefSelf();
 	}
+
+	TICKRATE_ASSERT(addr.GetPtr());
+
+	return addr.RCast<void*>();
+}
+
+void* GAMEDATA::GetPatchAddress(std::string name) {
+	if (m_Json.is_null() || m_Json.empty()) {
+		TICKRATE_ASSERT(false);
+		return nullptr;
+	}
+
+	if (m_Json.find("Patch") == m_Json.end()) {
+		TICKRATE_ASSERT(false);
+		return nullptr;
+	}
+
+	auto& patch = m_Json["Patch"];
+	if (patch.is_null() || patch.empty()) {
+		TICKRATE_ASSERT(false);
+		return nullptr;
+	}
+
+	auto& element = patch[name];
+	if (element.is_null() || element.empty()) {
+		TICKRATE_ASSERT(false);
+		return nullptr;
+	}
+
+	auto signature = element["signature"].get<std::string>();
+	auto base = GetMemSig(signature.c_str());
+	if (!base) {
+		TICKRATE_ASSERT(false);
+		return nullptr;
+	}
+
+	auto& offset_platform = element[WIN_LINUX("windows", "linux")];
+	if (offset_platform.is_null() || offset_platform.empty()) {
+		TICKRATE_ASSERT(false);
+		return nullptr;
+	}
+
+	auto offset = offset_platform["offset"].get<int>();
+
+	CMemory addr = CMemory(base);
+	addr.OffsetSelf(offset);
 
 	TICKRATE_ASSERT(addr.GetPtr());
 

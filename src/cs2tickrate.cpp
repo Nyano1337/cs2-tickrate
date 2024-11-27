@@ -2,6 +2,7 @@
 
 #include <core/interfaces.h>
 #include <core/logger.h>
+#include <core/gamedata.h>
 
 CCS2Tickrate g_TickratePlugin;
 
@@ -13,6 +14,15 @@ CCS2Tickrate* TickratePlugin() {
 
 bool CCS2Tickrate::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, bool late) {
 	PLUGIN_SAVEVARS();
+
+	GAMEDATA::Append("cs2tickrate.games.jsonc");
+
+	auto addr = *(float*)GAMEDATA::GetAddress("&tick_interval");
+	auto addr2 = *(double*)GAMEDATA::GetAddress("&(double)tick_interval");
+	auto addr3 = *(float*)GAMEDATA::GetAddress("&ticks_per_second");
+
+	auto p1 = *(float*)GAMEDATA::GetPatchAddress("&tick_interval3_default");
+	auto p2 = *(float*)GAMEDATA::GetPatchAddress("&tick_interval3");
 
 	IFACE::Setup(ismm, error, maxlen);
 

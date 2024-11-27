@@ -1,0 +1,100 @@
+{
+    "Offset": {
+
+    },
+    "Signature": {
+        "CNetworkGameClient::ComputeNextRenderTime": {
+			"library": "engine2",
+			"windows": "40 53 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B D9 0F 29 74 24 ? 66 0F 6E B1",
+			"linux": "80 BF ? ? ? ? ? 66 0F EF C0 F3 0F 2A 87"
+		},
+		// %g: FilterTime took target %g as time base instead of actual %g, diff %g\n
+		"CEngineServiceMgr::SleepAfterMainLoop": {
+			"library": "engine2",
+			"windows": "48 89 5C 24 ? 48 89 74 24 ? 48 89 4C 24 ? 57 48 81 EC",
+			"linux": "55 66 0F 28 E1"
+		},
+		// CQ disabled, re-syncing usercmd and simulation clock remainders\n
+		// CQ enabled, using client-controlled JIT async send mode\n
+		"CLoopTypeClientServer::UnkSubClientSimulateTick2": {
+			"library": "engine2",
+			"windows": "40 53 48 83 EC ? 48 83 B9 ? ? ? ? ? 48 8B D9 0F 29 74 24",
+			"linux": "55 48 89 E5 41 55 41 54 53 48 89 FB 48 83 EC 18 F3 0F 10 BF"
+		},
+		// SV_CreateNetworkStringTables
+		// v12 = (int)(float)((float)(v11 * 64.0) + 0.5) + 1;
+		// linux using CServerSideClient::ProcessMove but i dont care about linux now
+		"CNetworkGameServer::SpawnServer": {
+			"library": "engine2",
+			"windows": "F3 0F 59 05 ? ? ? ? F3 0F 58 05 ? ? ? ? F3 0F 2C C0 FF C0",
+			"linux": "55 48 89 E5 41 57 41 56 49 89 FE 41 55 41 54 49 89 F4 53 48 83 EC 28"
+		}
+    },
+    "Address": {
+        "&tick_interval": {
+			"signature": "CNetworkGameClient::ComputeNextRenderTime",
+			"windows": {
+				"offset_func": 32,
+				"offset_opcode": 4,
+				"opcode_length": 8,
+				"dereference": false
+			},
+			"linux": {
+				"offset_func": 19,
+				"offset_opcode": 4,
+				"opcode_length": 8,
+				"dereference": false
+			}
+		},
+		"&(double)tick_interval": {
+			"signature": "CEngineServiceMgr::SleepAfterMainLoop",
+			"windows": {
+				"offset_func": 313,
+				"offset_opcode": 4,
+				"opcode_length": 8,
+				"dereference": false
+			},
+			"linux": {
+				"offset_func": 180,
+				"offset_opcode": 4,
+				"opcode_length": 8,
+				"dereference": false
+			}
+		},
+		"&ticks_per_second": {
+			"signature": "CNetworkGameServer::SpawnServer",
+			"windows": {
+				"offset_func": 0,
+				"offset_opcode": 4,
+				"opcode_length": 8,
+				"dereference": false
+			},
+			"linux": {
+				"offset_func": 180,
+				"offset_opcode": 4,
+				"opcode_length": 8,
+				"dereference": false
+			}
+		}
+	},
+	"Patch": {
+		"&tick_interval3_default": {
+			"signature": "CLoopTypeClientServer::UnkSubClientSimulateTick2",
+			"windows": {
+				"offset": 56
+			},
+			"linux": {
+				"offset": 30
+			}
+		},
+		"&tick_interval3": {
+			"signature": "CLoopTypeClientServer::UnkSubClientSimulateTick2",
+			"windows": {
+				"offset": 109
+			},
+			"linux": {
+				"offset": 72
+			}
+		}
+    }
+}

@@ -5,7 +5,7 @@
 #include <public/iserver.h>
 
 std::string UTIL::GetWorkingDirectory() {
-	return PATH::Join(std::filesystem::current_path().string(), "..", "..", GAME_NAME, "addons", "cs2surf");
+	return PATH::Join(std::filesystem::current_path().string(), "..", "..", GAME_NAME, "addons", "cs2tickrate");
 }
 
 std::string UTIL::GetPublicIP() {
