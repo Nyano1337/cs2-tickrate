@@ -42,8 +42,6 @@ public:
 	static CFrame* GetHostFramePointer();
 
 public:
-	int m_iCurrentTickrate;
-	int m_iOldTickrate;
 	BaseConVar* sv_tickrate;
 
 public:

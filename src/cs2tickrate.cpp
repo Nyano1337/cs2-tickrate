@@ -28,9 +28,6 @@ bool CCS2Tickrate::Load(PluginId id, ISmmAPI* ismm, char* error, size_t maxlen, 
 
 	RegisterTickrate();
 
-	m_iCurrentTickrate = TICKRATE_DEFAULT;
-	m_iOldTickrate = TICKRATE_DEFAULT;
-
 	LOG::Setup(0x00FFFF);
 	MEM::SetupHooks();
 
@@ -84,30 +81,31 @@ const char* CCS2Tickrate::GetLogTag() {
 void CCS2Tickrate::RegisterTickrate() {
 	m_pInterval = (float*)GAMEDATA::GetAddress("&tick_interval");
 	m_pInterval2 = (double*)GAMEDATA::GetAddress("&(double)tick_interval");
-	m_pInterval3Default = (float*)GAMEDATA::GetAddress("&ticks_per_second");
+	m_pPerSecond = (float*)GAMEDATA::GetAddress("&ticks_per_second");
 
-	m_pInterval3 = (float*)GAMEDATA::GetPatchAddress("&tick_interval3_default");
-	m_pPerSecond = (float*)GAMEDATA::GetPatchAddress("&tick_interval3");
+	m_pInterval3Default = (float*)GAMEDATA::GetPatchAddress("&tick_interval3_default");
+	m_pInterval3 = (float*)GAMEDATA::GetPatchAddress("&tick_interval3");
 
 	m_pHostFrame = GetHostFramePointer();
 
 	libmem::ProtMemory((libmem::Address)m_pInterval, sizeof(m_pInterval), libmem::Prot::XRW);
 	libmem::ProtMemory((libmem::Address)m_pInterval2, sizeof(m_pInterval2), libmem::Prot::XRW);
+	libmem::ProtMemory((libmem::Address)m_pPerSecond, sizeof(m_pPerSecond), libmem::Prot::XRW);
 	libmem::ProtMemory((libmem::Address)m_pInterval3Default, sizeof(m_pInterval3Default), libmem::Prot::XRW);
 	libmem::ProtMemory((libmem::Address)m_pInterval3, sizeof(m_pInterval3), libmem::Prot::XRW);
-	libmem::ProtMemory((libmem::Address)m_pPerSecond, sizeof(m_pPerSecond), libmem::Prot::XRW);
 }
 
 bool CCS2Tickrate::DoChangeTickrate(int newTickrate) {
-	m_iCurrentTickrate = newTickrate;
+	int oldTickrate = GetTickrate();
 
-	float flOldInterval = (1.0f / m_iOldTickrate);
+	float flOldInterval = (1.0f / oldTickrate);
 	float flNewInterval = (1.0f / newTickrate);
-	float dblNewInterval = (1.02l / newTickrate);
-	float flMultiple = (m_iOldTickrate / (newTickrate * 1.0));
+	double dblNewInterval = (1.02l / newTickrate);
+	float flMultiple = (newTickrate / (oldTickrate * 1.0));
 
 	*m_pInterval = flNewInterval;
 	*m_pInterval3 = flNewInterval;
+	//*m_pInterval3Default = flNewInterval;
 	*m_pInterval2 = dblNewInterval;
 	*m_pPerSecond = newTickrate * 1.0;
 
@@ -116,8 +114,8 @@ bool CCS2Tickrate::DoChangeTickrate(int newTickrate) {
 		return false;
 	}
 
-	pHostFrame->time_unbounded = flNewInterval;
-	pHostFrame->time_computationduration = flNewInterval;
+	//pHostFrame->time_unbounded = flNewInterval;
+	//pHostFrame->time_computationduration = flNewInterval;
 
 	INetworkGameServer* pServer = g_pNetworkServerService->GetIGameServer();
 	if (!pServer) {
@@ -168,6 +166,10 @@ void CCS2Tickrate::OnFillServerInfo(CNetworkGameServerBase* pNetServer, CSVCMsg_
 void CCS2Tickrate::OnConnectClient(CNetworkGameServerBase* pNetServer, CServerSideClientBase* pClient, const char* pszName, ns_address* pAddr,
 								   int socket, CCLCMsg_SplitPlayerConnect_t* pSplitPlayer, const char* pszChallenge, const byte* pAuthTicket,
 								   int nAuthTicketLength, bool bIsLowViolence) {
+	if (!pClient) {
+		return;
+	}
+
 	static INetworkMessageInternal* pMessage = g_pNetworkMessages->FindNetworkMessagePartial("CNETMsg_SetConVar");
 
 	auto* pSetConVarMessage = pMessage->AllocateMessage()->ToPB<CNETMsg_SetConVar>();
@@ -190,7 +192,6 @@ void CCS2Tickrate::OnTickrateChanged(BaseConVar* ref, const CSplitScreenSlot nSl
 		return;
 	}
 
-	TickratePlugin()->m_iOldTickrate = *pOldValue;
 	TICKRATE_ASSERT(TickratePlugin()->DoChangeTickrate(*pNewValue));
 }
 

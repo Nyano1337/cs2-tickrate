@@ -1,19 +1,19 @@
 {
-    "Offset": {
+	"Offset": {
 		// Check sv_fullupdate
 		"ClientOffset": {
 			"windows": 624,
 			"linux": 640
 		}
-    },
-    "Signature": {
+	},
+	"Signature": {
 		// %5.2f %5.2f %5.2f %7i %5i %7.2f %7i
 		"CServerRemoteAccess::GetStatsString": {
 			"library": "engine2",
 			"windows": "4C 8B DC 49 89 5B ? 45 89 4B",
 			"linux": "55 48 89 E5 41 57 41 56 49 89 F6 41 55 48 8D 75 ? 41 89 CD"
 		},
-        "CNetworkGameClient::ComputeNextRenderTime": {
+		"CNetworkGameClient::ComputeNextRenderTime": {
 			"library": "engine2",
 			"windows": "40 53 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B D9 0F 29 74 24 ? 66 0F 6E B1",
 			"linux": "80 BF ? ? ? ? ? 66 0F EF C0 F3 0F 2A 87"
@@ -39,8 +39,8 @@
 			"windows": "F3 0F 59 05 ? ? ? ? F3 0F 58 05 ? ? ? ? F3 0F 2C C0 FF C0",
 			"linux": "55 48 89 E5 41 57 41 56 49 89 FE 41 55 41 54 49 89 F4 53 48 83 EC 28"
 		}
-    },
-    "Address": {
+	},
+	"Address": {
 		"GetHostFrame": {
 			"signature": "CServerRemoteAccess::GetStatsString",
 			"windows": {
@@ -56,7 +56,7 @@
 				"dereference": false
 			}
 		},
-        "&tick_interval": {
+		"&tick_interval": {
 			"signature": "CNetworkGameClient::ComputeNextRenderTime",
 			"windows": {
 				"offset_func": 32,
@@ -121,5 +121,5 @@
 				"offset": 72
 			}
 		}
-    }
+	}
 }
