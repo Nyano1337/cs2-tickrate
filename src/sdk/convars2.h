@@ -684,7 +684,6 @@ private:
 
 	inline void UpdateValue(const T& value, const CSplitScreenSlot& index, const CVValue_t* newValue, const CVValue_t* oldValue,
 							const char* szNewValue, const char* szOldValue) {
-		SURF_DEBUG_BREAK();
 		// GetConVarData()->SetValue(value, index);
 		//
 		// GetConVarData()->SetTimesChanged(GetConVarData()->GetTimesChanged() + 1);

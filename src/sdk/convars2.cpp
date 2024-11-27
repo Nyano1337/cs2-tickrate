@@ -4,7 +4,7 @@
 void RegisterConVarS2(ConVarCreation_t& cvar) {
 	CALL_VIRTUAL(void, 35, g_pCVar, cvar, 0, cvar.m_pHandle, cvar.m_pConVarData);
 	if (!cvar.m_pHandle->IsValid()) {
-		SURF_ASSERT(false);
+		TICKRATE_ASSERT(false);
 	}
 }
 

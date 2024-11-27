@@ -15,5 +15,3 @@
 
 #include <json.h>
 using json = nlohmann::json;
-
-#include <core/forwards.h>

@@ -8,6 +8,7 @@ set(TICKRATE_SRC "./src")
 
 include_directories(
 	${TICKRATE_SRC}
+	${TICKRATE_SRC}/sdk/protobuf
 	./vendor/libmem/include
 	./vendor/libmodule
 	./vendor/nlohmann
@@ -31,11 +32,12 @@ else()
 	list(APPEND LIBMODULE_SOURCES "${LIBMODULE_DIR}/module_linux.cpp")
 endif()
 
+file(GLOB_RECURSE PROTOBUF_SOURCES "${SURFTIMER_SRC}/sdk/protobuf/*.pb.cc" "${SURFTIMER_SRC}/sdk/protobuf/*.pb.h")
 file(GLOB_RECURSE TICKRATE_SOURCES "${TICKRATE_SRC}/*.cpp" "${TICKRATE_SRC}/*.h")
 
 add_definitions(-DHV_STATICLIB -DHAVE_MEMOVERRIDE_NEW_DELETE)
 
-add_library(${PROJECT_NAME} SHARED ${SDK_CONVAR} ${LIBMODULE_SOURCES} ${TICKRATE_SOURCES})
+add_library(${PROJECT_NAME} SHARED ${SDK_CONVAR} ${LIBMODULE_SOURCES} ${PROTOBUF_SOURCES} ${TICKRATE_SOURCES})
 
 if(WIN32)
 	target_link_options(${PROJECT_NAME} PRIVATE "ntdll.lib")

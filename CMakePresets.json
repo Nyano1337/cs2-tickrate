@@ -11,7 +11,7 @@
 			"hidden": true,
 			"environment": {
 				"GAME_ROOT": "YOUR_PATH",
-				"BIN_ROOT": "$env{GAME_ROOT}/csgo/addons/cs2tickrate"
+				"BIN_DIR": "$env{GAME_ROOT}/csgo/addons/cs2tickrate/bin"
 			}
 		},
 		{
@@ -22,13 +22,12 @@
 			"cacheVariables": {
 				"CMAKE_C_COMPILER": "clang-15",
 				"CMAKE_CXX_COMPILER": "clang++-15",
-				"OUT_DIR": "$env{TICKRATE_BIN_DIR}",
+				"OUT_DIR": "$env{BIN_DIR}",
 				"CMAKE_BUILD_TYPE": "Debug"
 			},
 			"environment": {
 				"GAME_ROOT": "/home/cs2/game",
-				"CS2_BIN": "$env{GAME_ROOT}/bin/linuxsteamrt64/cs2",
-				"TICKRATE_BIN_DIR": "$env{BIN_ROOT}/bin/linuxsteamrt64"
+				"CS2_BIN": "$env{GAME_ROOT}/bin/linuxsteamrt64/cs2"
 			},
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
@@ -52,13 +51,12 @@
 			"cacheVariables": {
 				"CMAKE_C_COMPILER": "cl",
 				"CMAKE_CXX_COMPILER": "cl",
-				"OUT_DIR": "$env{TICKRATE_BIN_DIR}",
+				"OUT_DIR": "$env{BIN_DIR}",
 				"CMAKE_BUILD_TYPE": "Debug"
 			},
 			"environment": {
 				"GAME_ROOT": "E:/Steam/steamapps/common/Counter-Strike Global Offensive/game",
-				"CS2_BIN": "$env{GAME_ROOT}/bin/win64/cs2.exe",
-				"TICKRATE_BIN_DIR": "$env{BIN_ROOT}/bin/win64"
+				"CS2_BIN": "$env{GAME_ROOT}/bin/win64/cs2.exe"
 			},
 			"vendor": {
 				"microsoft.com/VisualStudioSettings/CMake/1.0": {
