@@ -32,7 +32,7 @@ else()
 	list(APPEND LIBMODULE_SOURCES "${LIBMODULE_DIR}/module_linux.cpp")
 endif()
 
-file(GLOB_RECURSE PROTOBUF_SOURCES "${SURFTIMER_SRC}/sdk/protobuf/*.pb.cc" "${SURFTIMER_SRC}/sdk/protobuf/*.pb.h")
+file(GLOB_RECURSE PROTOBUF_SOURCES "${TICKRATE_SRC}/sdk/protobuf/*.pb.cc" "${TICKRATE_SRC}/sdk/protobuf/*.pb.h")
 file(GLOB_RECURSE TICKRATE_SOURCES "${TICKRATE_SRC}/*.cpp" "${TICKRATE_SRC}/*.h")
 
 add_definitions(-DHV_STATICLIB -DHAVE_MEMOVERRIDE_NEW_DELETE)

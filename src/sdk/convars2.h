@@ -523,10 +523,10 @@ void UnRegisterConVar(ConVarHandleS2& cvar);
 template<typename T>
 class ConVarS2 : public BaseConVar {
 public:
-	using FnChangeCallback_t = void (*)(ConVarS2<T>* ref, const CSplitScreenSlot nSlot, const T* pNewValue, const T* pOldValue);
+	using FnChangeCallback_t = void (*)(BaseConVar* ref, const CSplitScreenSlot nSlot, const T* pNewValue, const T* pOldValue);
 
 	ConVarS2(const char* name, int32_t flags, const char* description, const T& value, FnChangeCallback_t cb = nullptr) {
-		this->Init(INVALID_CONVAR_HANDLE, TranslateConVarType<T>());
+		this->Init(name, INVALID_CONVAR_HANDLE, TranslateConVarType<T>());
 
 		ConVarCreation_t setup;
 		setup.m_valueInfo.m_bHasDefault = true;
@@ -539,7 +539,7 @@ public:
 
 	ConVarS2(const char* name, int32_t flags, const char* description, const T& value, bool min, const T& minValue, bool max, const T& maxValue,
 			 FnChangeCallback_t cb = nullptr) {
-		this->Init(INVALID_CONVAR_HANDLE, TranslateConVarType<T>());
+		this->Init(name, INVALID_CONVAR_HANDLE, TranslateConVarType<T>());
 
 		ConVarCreation_t setup;
 		setup.m_valueInfo.m_bHasDefault = true;
@@ -641,15 +641,13 @@ public:
 	}
 
 private:
-	void Init(ConVarHandleS2 defaultHandle, EConVarType type) {
+	void Init(const char* name, ConVarHandleS2 defaultHandle, EConVarType type) {
 		this->m_Handle.Invalidate();
 		this->m_ConVarData = nullptr;
 
 		if (g_pCVar) {
-			char* adsf = new char(sizeof(ConVarHandleS2));
-			ConVarHandle* legacyHandle = (ConVarHandle*)adsf;
-			memcpy(legacyHandle, &defaultHandle, sizeof(ConVarHandleS2));
-			auto cvar = (CConVarBaseData*)g_pCVar->GetConVar(*legacyHandle);
+			auto handle = g_pCVar->FindConVar(name);
+			auto cvar = (CConVarBaseData*)g_pCVar->GetConVar(handle);
 			this->m_ConVarData = (cvar && cvar->Cast<T>()) ? cvar : nullptr;
 			if (!this->m_ConVarData) {
 				this->m_ConVarData = GetInvalidConVar(TranslateConVarType<T>());

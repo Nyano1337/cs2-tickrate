@@ -40,7 +40,7 @@ namespace MEM {
 	template<typename T, typename... Args>
 	T SDKCall(void* pAddress, Args... args) {
 		auto pFn = reinterpret_cast<T (*)(Args...)>(pAddress);
-		SURF_ASSERT((uintptr_t)pFn);
+		TICKRATE_ASSERT((uintptr_t)pFn);
 		return pFn(args...);
 	}
 

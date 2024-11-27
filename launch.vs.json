@@ -7,7 +7,7 @@
 			"debuggerConfiguration": "gdb",
 			"name": "Remote-Tickrate",
 			"project": "CMakeLists.txt",
-			"projectTarget": "cs2surf.so",
+			"projectTarget": "cs2tickrate.so",
 			"program": "${env.CS2_BIN}",
 			"args": [
 				"-insecure",

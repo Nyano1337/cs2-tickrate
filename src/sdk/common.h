@@ -24,6 +24,7 @@ typedef double f64;
 
 #pragma region TICKRATE_DEF
 
+#define TICKRATE_DEFAULT           64
 #define ENGINE_FIXED_TICK_INTERVAL 0.015625f
 #define ENGINE_FIXED_TICK_RATE     (1.0f / ENGINE_FIXED_TICK_INTERVAL)
 #define EPSILON                    0.000001f
