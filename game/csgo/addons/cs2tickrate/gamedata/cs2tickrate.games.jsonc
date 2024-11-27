@@ -15,7 +15,7 @@
 		},
         "CNetworkGameClient::ComputeNextRenderTime": {
 			"library": "engine2",
-			"windows": "40 53 48 83 EC 30 80 B9 ? ? ? ? ? 48 8B D9 0F 29 74 24 ? 66 0F 6E B1",
+			"windows": "40 53 48 83 EC ? 80 B9 ? ? ? ? ? 48 8B D9 0F 29 74 24 ? 66 0F 6E B1",
 			"linux": "80 BF ? ? ? ? ? 66 0F EF C0 F3 0F 2A 87"
 		},
 		// %g: FilterTime took target %g as time base instead of actual %g, diff %g\n
