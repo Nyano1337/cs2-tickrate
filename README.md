@@ -1,1 +1,1 @@
-# Timer
+# CS2-Tickrate
