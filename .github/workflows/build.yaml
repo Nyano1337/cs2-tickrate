@@ -1,0 +1,77 @@
+name: Build
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+
+jobs:
+  build-windows:
+    name: Windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: false
+
+      - name: Update version header
+        run: |
+          echo "#define VERSION_STRING \"${{ inputs.version }}\"" > ./src/version.h
+
+      - name: Find Visual C++ compilers and make all environment variables global (W)
+        shell: cmd
+        run: |
+          :: See https://github.com/microsoft/vswhere/wiki/Find-VC
+          for /f "usebackq delims=*" %%i in (`vswhere -latest -property installationPath`) do (
+            call "%%i"\Common7\Tools\vsdevcmd.bat -arch=x64 -host_arch=x64
+          )
+
+          :: Loop over all environment variables and make them global.
+          for /f "delims== tokens=1,2" %%a in ('set') do (
+            echo>>"%GITHUB_ENV%" %%a=%%b
+          )
+      
+      - name: Setup Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+
+      - name: Build with CMake
+        run: |
+          cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="cl" -DCMAKE_CXX_COMPILER="cl"
+          cmake --build build
+
+      # - name: Archive build
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: cs2surf-win
+      #     path: ./build/package
+
+  build-linux:
+    name: Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          lfs: true
+
+      - name: Update version header
+        run: |
+          echo "#define VERSION_STRING \"${{ inputs.version }}\"" > ./src/version.h
+
+      - name: Setup Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+
+      - name: Build with CMake
+        run: |
+          cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER="clang-15" -DCMAKE_CXX_COMPILER="clang++-15"
+          cmake --build build
+
+      # - name: Archive build
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: cs2surf-linux
+      #     path: ./build/package

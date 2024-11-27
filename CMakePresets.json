@@ -1,73 +1,103 @@
 {
-	"version": 4,
-	"configurePresets":
-	[
+	"version": 3,
+	"cmakeMinimumRequired": {
+		"major": 3,
+		"minor": 22,
+		"patch": 0
+	},
+	"configurePresets": [
 		{
-			"name": "default",
-			"displayName": "Default Config",
-			"description": "Build using Ninja generator",
+			"name": "Path-Preset",
+			"hidden": true,
+			"environment": {
+				"GAME_ROOT": "YOUR_PATH",
+				"BIN_ROOT": "$env{GAME_ROOT}/csgo/addons/cs2tickrate"
+			}
+		},
+		{
+			"name": "S2M-Linux",
+			"hidden": true,
+			"inherits": "Path-Preset",
 			"generator": "Ninja",
-			"binaryDir": "${sourceDir}/build/${presetName}",
-			"hidden": true
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "clang-15",
+				"CMAKE_CXX_COMPILER": "clang++-15",
+				"OUT_DIR": "$env{TICKRATE_BIN_DIR}",
+				"CMAKE_BUILD_TYPE": "Debug"
+			},
+			"environment": {
+				"GAME_ROOT": "/home/cs2/game",
+				"CS2_BIN": "$env{GAME_ROOT}/bin/linuxsteamrt64/cs2",
+				"TICKRATE_BIN_DIR": "$env{BIN_ROOT}/bin/linuxsteamrt64"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"intelliSenseMode": "linux-gcc-x64",
+					"hostOS": "Linux"
+				},
+				"microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+					"copySourcesOptions": {
+						"exclusionList": [ ".vs", ".git", "*.ps1", "*.lib", "*.exe", "*.pdb", "*.bat", "*.dll", "out", "x64", "build", "Source2Mod", "artifacts" ]
+					},
+					"sourceDir": "$env{HOME}/.vs"
+				}
+			},
+			"binaryDir": "$env{HOME}/.vs/$ms{projectDirName}/out/build/${presetName}"
 		},
 		{
-			"name": "Debug",
-			"displayName": "Debug - Ninja",
-			"inherits": "default",
-			"cacheVariables":
-			{
+			"name": "S2M-Windows",
+			"hidden": true,
+			"inherits": "Path-Preset",
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_C_COMPILER": "cl",
+				"CMAKE_CXX_COMPILER": "cl",
+				"OUT_DIR": "$env{TICKRATE_BIN_DIR}",
+				"CMAKE_BUILD_TYPE": "Debug"
+			},
+			"environment": {
+				"GAME_ROOT": "E:/Steam/steamapps/common/Counter-Strike Global Offensive/game",
+				"CS2_BIN": "$env{GAME_ROOT}/bin/win64/cs2.exe",
+				"TICKRATE_BIN_DIR": "$env{BIN_ROOT}/bin/win64"
+			},
+			"vendor": {
+				"microsoft.com/VisualStudioSettings/CMake/1.0": {
+					"intelliSenseMode": "windows-msvc-x64",
+					"hostOS": "Windows"
+				}
+			}
+		},
+		{
+			"name": "Linux-Debug",
+			"hidden": false,
+			"inherits": "S2M-Linux",
+			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Debug"
 			}
 		},
 		{
-			"name": "Release",
-			"displayName": "Release - Ninja",
-			"inherits": "default",
-			"cacheVariables":
-			{
+			"name": "Linux-Release",
+			"hidden": false,
+			"inherits": "S2M-Linux",
+			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release"
 			}
 		},
 		{
-			"name": "Windows/Debug",
-			"description": "Debug configuration for building with Visual Studio",
-			"displayName": "Debug - Visual Studio 2022",
-			"generator": "Visual Studio 17 2022",
-			"inherits": "default",
-			"cacheVariables":
-			{
-				"CMAKE_BUILD_TYPE": "Debug"
-			}
-		},
-		{
-			"name": "Windows/Release",
-			"description": "Release configuration for building with Visual Studio",
-			"displayName": "Release - Visual Studio 2022",
-			"generator": "Visual Studio 17 2022",
-			"inherits": "default",
-			"cacheVariables":
-			{
+			"name": "Win-Release",
+			"hidden": false,
+			"inherits": "S2M-Windows",
+			"cacheVariables": {
 				"CMAKE_BUILD_TYPE": "Release"
 			}
-		}
-	],
-	"buildPresets":
-	[
-		{
-			"name": "Debug",
-			"configurePreset": "Debug"
 		},
 		{
-			"name": "Release",
-			"configurePreset": "Release"
-		},
-		{
-			"name": "Windows/Debug",
-			"configurePreset": "Windows/Debug"
-		},
-		{
-			"name": "Windows/Release",
-			"configurePreset": "Windows/Release"
+			"name": "Win-Debug",
+			"hidden": false,
+			"inherits": "S2M-Windows",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "RelWithOd"
+			}
 		}
 	]
 }

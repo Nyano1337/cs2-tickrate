@@ -1,0 +1,21 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "Win-Debug-CustomOut",
+      "hidden": false,
+      "inherits": "Win-Debug",
+      "environment": {
+        "GAME_ROOT": "E:/Steam/steamapps/common/Counter-Strike Global Offensive/game"
+      }
+    },
+    {
+      "name": "Win-Release-CustomOut",
+      "hidden": false,
+      "inherits": "Win-Release",
+      "environment": {
+        "GAME_ROOT": "E:/Steam/steamapps/common/Counter-Strike Global Offensive/game"
+      }
+    }
+  ]
+}

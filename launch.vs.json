@@ -1,0 +1,41 @@
+{
+	"version": "0.2.1",
+	"defaults": {},
+	"configurations": [
+		{
+			"type": "cppgdb",
+			"debuggerConfiguration": "gdb",
+			"name": "Remote-SurfTimer",
+			"project": "CMakeLists.txt",
+			"projectTarget": "cs2surf.so",
+			"program": "${env.CS2_BIN}",
+			"args": [
+				"-insecure",
+				"-dedicated",
+				"+game_mode 0",
+				"+game_type 0",
+				"+developer 5",
+				"+map de_dust2",
+				"+exec server.cfg",
+				"+sv_cheats 1"
+			]
+		},
+		{
+			"type": "dll",
+			"name": "Local-SurfTimer",
+			"project": "CMakeLists.txt",
+			"exe": "${env.CS2_BIN}",
+			"args": [
+				"-insecure",
+				"-dedicated",
+				"+hostport 27025",
+				"+game_mode 0",
+				"+game_type 0",
+				"+developer 5",
+				"+map de_dust2",
+				"+exec server.cfg",
+				"+sv_cheats 1"
+			]
+		}
+	]
+}
